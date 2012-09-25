@@ -11,8 +11,6 @@ from cana.app import Application
 if __name__ == '__main__':
     data = Data('test')
 
-    print data.italian()
-
     app = Application()
 
     window = TestWindow(data.italian())
