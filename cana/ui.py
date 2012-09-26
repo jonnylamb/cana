@@ -69,7 +69,7 @@ class TestWindow(Gtk.Window):
 
     def check(self):
         res = True
-        values = self.data[self.iter]
+        values = self.data[self.iter][:]
 
         for entry in self.entrybox.get_children():
             tmp = entry.get_text()
