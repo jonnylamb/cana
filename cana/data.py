@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 import random
 
@@ -87,6 +88,9 @@ class Verb(object):
 
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
+        if not self.skip_past:
+            self.do_simple_past(self.indicative)
+
         self.random_iter = []
 
     def random(self):
@@ -123,9 +127,42 @@ class Verb(object):
 
         return m
 
+    def do_simple_past(self, mood):
+        personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
+
+        if self.auxiliary == 'essere':
+            aux = ['sono', 'sei', 'è', 'siamo', 'siete', 'sono']
+            try:
+                tps_past = self.past_f
+            except:
+                if self.past_m[-1] == 'o':
+                    tps_past = self.past_m[:-1]
+                else:
+                    tps_past = self.past_m # this is probably wrong
+
+        elif self.auxiliary == 'avere':
+            aux = ['ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno']
+            tps_past = self.past_m
+        else:
+            raise Exception('unknown auxiliary: %s' % self.auxiliary)
+
+        pasts = [self.past_m] * 2 + [tps_past] + [self.past_m] * 3
+
+        it = [(personal_it[x], '%s %s' % (aux[x], pasts[x])) for x in range(6)]
+
+        empty = [''] * 6
+        mood.add(Tense('simple past', it, zip(empty, empty)))
+
     @property
     def english_name(self):
         return self.keyfile.get_string('misc', 'en')
+
+    @property
+    def skip_past(self):
+        try:
+            return not bool(self.past_m)
+        except:
+            return True
 
     @property
     def auxiliary(self):
