@@ -2,13 +2,9 @@ from gi.repository import Gtk
 
 import random
 
-class TestWindow(Gtk.Window):
-    def __init__(self, data):
+class BaseWindow(Gtk.Window):
+    def __init__(self):
         Gtk.Window.__init__(self)
-
-        self.data = data
-        self.keys = data.keys()
-        random.shuffle(self.keys)
 
         self.vbox = Gtk.VBox(False, 5)
         self.add(self.vbox)
@@ -30,6 +26,17 @@ class TestWindow(Gtk.Window):
         self.nextbutton.connect('activate', self.activated, None)
 
         self.set_default(self.nextbutton)
+
+    def activated(self, shrug, data):
+        raise NotImplementedErrr
+
+class TestWindow(BaseWindow):
+    def __init__(self, data):
+        BaseWindow.__init__(self)
+
+        self.data = data
+        self.keys = data.keys()
+        random.shuffle(self.keys)
 
         self.next()
 
@@ -95,6 +102,98 @@ class TestWindow(Gtk.Window):
 
         # is it complete?
         if not self.give_focus():
+            return
+
+        if not self.check():
+            return
+
+        try:
+            self.next()
+        except IndexError:
+            # TODO end
+            self.question.set_markup('<span font="Sans Italic 60">fin</span>')
+            pass
+
+class VerbWindow(BaseWindow):
+    english_names = ['1st person singular',
+                     '2nd person singular',
+                     '3rd person singular',
+                     '1st person plural',
+                     '2nd person plural',
+                     '3rd person plural']
+
+    def __init__(self, verbs):
+        BaseWindow.__init__(self)
+
+        self.verbs = verbs
+
+        entry = Gtk.Entry()
+        entry.set_activates_default(True)
+        self.entrybox.add(entry)
+        entry.show()
+
+        self.random_iter = []
+
+        self.next()
+
+    def random(self):
+        if not self.random_iter:
+            self.random_iter = self.verbs[:]
+            random.shuffle(self.random_iter)
+
+        return self.random_iter.pop()
+
+    @property
+    def entry(self):
+        children = self.entrybox.get_children()
+        assert len(children) == 1, children
+
+        return children[0]
+
+    def complete(self):
+        return self.entry.get_text() != ''
+
+    def next(self):
+        # clear up first
+        self.question.set_text('')
+        self.correction.hide()
+        self.entry.set_text('')
+
+        verb = self.random()
+        mood = verb.random()
+        tense = mood.random()
+        self.iter = tense.italian()
+
+        num, display, answers = self.iter
+
+        if display == ' ': # I don't like this any more than you
+            # this would have been cooler
+            #english_name = ['%s person %s' % (x,y) for x in ['1st', '2nd', '3rd'] for y in ['singular', 'plural']][num]
+            english_name = self.english_names[num]
+
+            display = '%s %s\n%s\n<i>%s</i>' % (mood.name, tense.name, english_name, verb.english_name)
+
+        self.question.set_markup('<span font="Sans 60">%s</span>' % display)
+        self.entry.grab_focus()
+
+    def check(self):
+        num, display, answers = self.iter
+        if self.entry.get_text().lower() in answers:
+            return True
+
+        correction = '<span font="Sans 60" foreground="red">%s</span>' % answers[1]
+
+        self.correction.set_markup(correction)
+        self.correction.show()
+
+        self.entry.set_text('')
+        self.entry.grab_focus()
+        return False
+
+    def activated(self, shrug, data):
+
+        # is it complete?
+        if not self.complete():
             return
 
         if not self.check():
