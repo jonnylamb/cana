@@ -7,10 +7,11 @@ from cana.ui import TestWindow
 from cana.app import Application
 
 if __name__ == '__main__':
-    data = Data('test')
+    data = Data('words')
 
     app = Application()
 
+    # TODO: add this to the activate callback of the application
     window = TestWindow(data.italian())
     app.add_window(window)
     window.show()
