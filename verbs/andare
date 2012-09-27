@@ -1,0 +1,22 @@
+[misc]
+en=to go
+auxiliary=essere
+gerund=andando
+past-m=andato
+past-f=andata
+
+[indicative]
+present-it=vado,vo;vai;va;andiamo;andate;vanno;
+imperfect-it=andavo;andavi;andava;andavamo;andavate;andavano;
+past-it=andai;andasti;andò;andammo;andaste;andarono;
+future-it=andrò;andrai;andrà;andremo;andrete;andranno;
+
+[conditional]
+present-it=andrei;andresti;andrebbe;andremmo;andreste;andrebbero;
+
+[subjunctive]
+present-it=vada;vada;vada;andiamo;andiate;vadano;
+imperfect-it=andassi;andassi;andasse;andassimo;andaste;andassero;
+
+[imperative]
+present-it=;vai;vada;andiamo;andate;vadano;

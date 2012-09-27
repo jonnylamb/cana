@@ -1,0 +1,21 @@
+[misc]
+en=to close
+auxiliary=avere
+gerund=chiudendo
+past-m=chiuso
+
+[indicative]
+present-it=chiudo;chiudi;chiude;chiudiamo;chiudete;chiudono;
+imperfect-it=chiudevo;chiudevi;chiudeva;chiudevamo;chiudevate;chiudevano;
+past-it=chiusi;chiudesti;chiuse;chiudemmo;chiudeste;chiusero;
+future-it=chiuderò;chiuderai;chiuderà;chiuderemo;chiuderete;chiuderanno;
+
+[conditional]
+present-it=chiuderei;chiuderesti;chiuderebbe;chiuderemmo;chiudereste;chiuderebbero;
+
+[subjunctive]
+present-it=chiuda;chiuda;chiuda;chiudiamo;chiudiate;chiudano;
+imperfect-it=chiudessi;chiudessi;chiudesse;chiudessimo;chiudeste;chiudessero;
+
+[imperative]
+present-it=;chiudi;chiuda;chiudiamo;chiudete;chiudano;

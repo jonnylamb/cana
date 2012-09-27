@@ -1,0 +1,17 @@
+[misc]
+en=to stay
+auxiliary=essere
+gerund=stando
+past-m=stato
+
+[indicative]
+present-it=sto;stai;sta;stiamo;state;stanno;
+imperfect-it=stavo;stavi;stava;stavamo;stavate;stavano;
+past-it=stetti;stesti;stette;stemmo;steste;stettero;
+future-it=starò;starai;starà;staremo;starete;staranno;
+
+[conditional]
+present-it=starei;staresti;starebbe;staremmo;stareste;starebbero;
+
+[imperative]
+present-it=;sta;stia;stiamo;state;stiano;
