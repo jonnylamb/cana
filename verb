@@ -10,12 +10,14 @@ from cana.app import Application
 if __name__ == '__main__':
     app = Application()
 
+    if len(sys.argv) > 1:
+        verblist = sys.argv[1:]
+    else:
+        verblist = os.listdir('verbs')
+
     verbs = []
-    for f in os.listdir('verbs'):
-        try:
-            verbs.append(Verb(f))
-        except:
-            pass
+    for f in verblist:
+        verbs.append(Verb(f))
 
     # TODO: add this to the activate callback of the application
     window = VerbWindow(verbs)
