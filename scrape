@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+
+import sys
+import urllib2
+import codecs
+from BeautifulSoup import BeautifulSoup
+
+if len(sys.argv[1:]) != 2:
+    print './scrape [verb] [english name]'
+    sys.exit(1)
+
+req = urllib2.Request('http://en.wiktionary.org/wiki/' + sys.argv[1], '',
+                       {'User-Agent': 'jonnylamb@jonnylamb.com'})
+response = urllib2.urlopen(req)
+data = response.read()
+soup = BeautifulSoup(data)
+
+div = soup.findAll('div', text='&#160; &#160; Conjugation of ' + sys.argv[1])
+tables = div[0].parent.parent.findAll('table')
+assert len(tables) == 1
+table = tables[0]
+
+gerund = str(table.findAll('th', text='gerund')[0].parent.nextSibling.nextSibling.text)
+aux = str(table.findAll('th', text='auxiliary verb')[0].parent.nextSibling.nextSibling.text)
+past = str(table.findAll('th', text='past participle')[0].parent.nextSibling.nextSibling.text)
+
+indicative_present = soup.findAll('th', text='indicative')[0].parent.parent.nextSibling.nextSibling
+indicative_imperfect = indicative_present.nextSibling.nextSibling
+indicative_past_historic = indicative_imperfect.nextSibling.nextSibling
+indicative_future = indicative_past_historic.nextSibling.nextSibling
+
+conditional_present = soup.findAll('th', text='conditional')[0].parent.parent.nextSibling.nextSibling
+
+subjunctive_present = soup.findAll('th', text='subjunctive')[0].parent.parent.nextSibling.nextSibling
+subjunctive_imperfect = subjunctive_present.nextSibling.nextSibling
+
+imperative = soup.findAll('th', text='imperative')[0].parent.parent.nextSibling.nextSibling
+
+i_p_s = ';'.join([x.text for x in indicative_present.findAll('td')]) + ';'
+i_i_s = ';'.join([x.text for x in indicative_imperfect.findAll('td')]) + ';'
+i_p_h_s = ';'.join([x.text for x in indicative_past_historic.findAll('td')]) + ';'
+i_f_s = ';'.join([x.text for x in indicative_future.findAll('td')]) + ';'
+
+s_p_s = ';'.join([x.text for x in subjunctive_present.findAll('td')]) + ';'
+s_i_s = ';'.join([x.text for x in subjunctive_imperfect.findAll('td')]) + ';'
+
+c_p_s = ';'.join([x.text for x in conditional_present.findAll('td')]) + ';'
+i_s = ';'.join([x.text for x in imperative.findAll('td')]) + ';'
+
+english = sys.argv[2]
+
+s = '''[misc]
+en=%(english)s
+auxiliary=%(aux)s
+gerund=%(gerund)s
+past-m=%(past)s
+
+[indicative]
+present-it=%(i_p_s)s
+imperfect-it=%(i_i_s)s
+past-it=%(i_p_h_s)s
+future-it=%(i_f_s)s
+
+[conditional]
+present-it=%(c_p_s)s
+
+[subjunctive]
+present-it=%(s_p_s)s
+imperfect-it=%(s_i_s)s
+
+[imperative]
+present-it=%(i_s)s
+''' % globals()
+
+s.encode('utf-8')
+
+f = codecs.open('verbs/' + sys.argv[1], 'w', 'utf-8')
+f.write(s)
+f.close()
+print 'done.'
+
