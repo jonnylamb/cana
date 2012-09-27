@@ -2,8 +2,6 @@
 
 import sys
 
-from gi.repository import Gtk
-
 from cana.data import Data
 from cana.ui import TestWindow
 from cana.app import Application
