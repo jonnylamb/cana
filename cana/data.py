@@ -136,13 +136,16 @@ class Verb(object):
 
         if self.auxiliary == 'essere':
             aux = ['sono', 'sei', 'è', 'siamo', 'siete', 'sono']
+
+            # we really need this to be true for anything to make sense
+            assert self.past_m[-1] == 'o', self.past_m
+
             try:
                 tps_past = self.past_f
             except:
-                if self.past_m[-1] == 'o':
-                    tps_past = self.past_m[:-1]
-                else:
-                    tps_past = self.past_m # this is probably wrong
+                tps_past = self.past_m[:-1] + 'a'
+
+            p_past = self.past_m[:-1] + 'i'
 
         elif self.auxiliary == 'avere':
             aux = ['ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno']
@@ -150,7 +153,7 @@ class Verb(object):
         else:
             raise Exception('unknown auxiliary: %s' % self.auxiliary)
 
-        pasts = [self.past_m] * 2 + [tps_past] + [self.past_m] * 3
+        pasts = [self.past_m] * 2 + [tps_past] + [p_past] * 3
 
         # [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
         it = [(personal_it[x], '%s %s' % (aux[x], pasts[x])) for x in range(6)]
