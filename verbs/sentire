@@ -1,0 +1,21 @@
+[misc]
+en=to feel
+auxiliary=avere
+gerund=sentendo
+past-m=sentito
+
+[indicative]
+present-it=sento;senti;sente;sentiamo;sentite;sentono;
+imperfect-it=sentivo;sentivi;sentiva;sentivamo;sentivate;sentivano;
+past-it=sentii;sentisti;sentì;sentimmo;sentiste;sentirono;
+future-it=sentirò;sentirai;sentirà;sentiremo;sentirete;sentiranno;
+
+[conditional]
+present-it=sentirei;sentiresti;sentirebbe;sentiremmo;sentireste;sentirebbero;
+
+[subjunctive]
+present-it=senta;senta;senta;sentiamo;sentiate;sentano;
+imperfect-it=sentissi;sentissi;sentisse;sentissimo;sentiste;sentissero;
+
+[imperative]
+present-it=;senti;senta;sentiamo;sentite;sentano;

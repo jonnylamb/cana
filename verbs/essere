@@ -1,0 +1,15 @@
+[misc]
+en=to be
+auxillary=essere
+gerund=essendo
+past-m=stato
+past-f=stata
+
+[indicative]
+present-it=sono;sei;è;siamo;siete;sono;
+present-en=am;are;is;are;are;are;
+imperfect-it=ero;eri;era;eravamo;eravate;erano;
+imperfect-en=was;were;was;were;were;were;
+future-it=sarò;sarai;sarà;saremo;sarete;saranno;
+future-en=will be;will be;will be;will be;will be;will be;
+

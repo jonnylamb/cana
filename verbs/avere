@@ -1,0 +1,14 @@
+[misc]
+en=to have
+auxillary=avere
+gerund=avendo
+past-m=avuto
+
+[indicative]
+present-it=ho;hai;ha;abbiamo;avete;hanno;
+present-en=have;have;has;have;have;have;
+imperfect-it=avevo;avevi;aveva;avevamo;avevate;avevano;
+imperfect-en=had;had;had;had;had;had;
+future-it=avrò;avrai;avrà;avremo;avrete;avranno;
+future-en=will have;will have;will have;will have;will have;will have;
+

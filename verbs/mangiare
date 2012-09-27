@@ -1,0 +1,21 @@
+[misc]
+en=to eat
+auxiliary=avere
+gerund=mangiando
+past-m=mangiato
+
+[indicative]
+present-it=mangio;mangi;mangia;mangiamo;mangiate;mangiano;
+imperfect-it=mangiavo;mangiavi;mangiava;mangiavamo;mangiavate;mangiavano;
+past-it=mangiai;mangiasti;mangiò;mangiammo;mangiaste;mangiarono;
+future-it=mangerò;mangerai;mangerà;mangeremo;mangerete;mangeranno;
+
+[conditional]
+present-it=mangerei;mangeresti;mangerebbe;mangeremmo;mangereste;mangerebbero;
+
+[subjunctive]
+present-it=mangi;mangi;mangi;mangiamo;mangiate;mangino;
+imperfect-it=mangiassi;mangiassi;mangiasse;mangiassimo;mangiaste;mangiassero;
+
+[imperative]
+present-it=;mangia;mangi;mangiamo;mangiate;mangino;
