@@ -6,9 +6,11 @@ past-m=mangiato
 
 [indicative]
 present-it=mangio;mangi;mangia;mangiamo;mangiate;mangiano;
+present-en=eat;eat;eats;eat;eat;eat;
 imperfect-it=mangiavo;mangiavi;mangiava;mangiavamo;mangiavate;mangiavano;
 past-it=mangiai;mangiasti;mangiò;mangiammo;mangiaste;mangiarono;
 future-it=mangerò;mangerai;mangerà;mangeremo;mangerete;mangeranno;
+future-en=will eat;will eat;will eat;will eat;will eat;will eat;
 
 [conditional]
 present-it=mangerei;mangeresti;mangerebbe;mangeremmo;mangereste;mangerebbero;

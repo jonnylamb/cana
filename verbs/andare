@@ -3,13 +3,14 @@ en=to go
 auxiliary=essere
 gerund=andando
 past-m=andato
-past-f=andata
 
 [indicative]
-present-it=vado,vo;vai;va;andiamo;andate;vanno;
+present-it=vado;vai;va;andiamo;andate;vanno;
+present-en=go;go;goes;go;go;go;
 imperfect-it=andavo;andavi;andava;andavamo;andavate;andavano;
 past-it=andai;andasti;andò;andammo;andaste;andarono;
 future-it=andrò;andrai;andrà;andremo;andrete;andranno;
+future-en=will go;will go;will go;will go;will go;will go;
 
 [conditional]
 present-it=andrei;andresti;andrebbe;andremmo;andreste;andrebbero;

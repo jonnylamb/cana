@@ -48,6 +48,11 @@ c_p_s = ';'.join([x.text for x in conditional_present.findAll('td')]) + ';'
 i_s = ';'.join([x.text for x in imperative.findAll('td')]) + ';'
 
 english = sys.argv[2]
+en = english.split(' ')[-1]
+
+# eat;eat;eats;eat;eat;eat;
+i_p_es = ';'.join([en] * 2 + [en + 's'] + [en] * 3) + ';'
+i_f_es = ';'.join(['will ' + en] * 6) + ';'
 
 s = '''[misc]
 en=%(english)s
@@ -57,9 +62,11 @@ past-m=%(past)s
 
 [indicative]
 present-it=%(i_p_s)s
+present-en=%(i_p_es)s
 imperfect-it=%(i_i_s)s
 past-it=%(i_p_h_s)s
 future-it=%(i_f_s)s
+future-en=%(i_f_es)s
 
 [conditional]
 present-it=%(c_p_s)s
