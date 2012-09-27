@@ -61,12 +61,12 @@ class Tense(object):
         return self.random_iter.pop()
 
 class Mood(object):
-    def __init__(self, name, tenses):
+    def __init__(self, name):
         self.name = name
-        self.tenses = tenses
+        self.tenses = []
 
-        for tense in tenses:
-            setattr(self, tense.name, tense)
+    def add(self, tense):
+        self.tenses.append(tense)
 
     def random(self):
         return random.choice(self.tenses)
@@ -92,6 +92,7 @@ class Verb(object):
 
     def parse_conjugation(self, mood, tenses):
         t = []
+        m = Mood(mood)
 
         for tense in tenses:
             conj_it, _ = self.keyfile.get_string_list(mood, tense + '-it')
@@ -112,9 +113,9 @@ class Verb(object):
             it = zip(personal_it, conj_it)
             en = zip(personal_en, conj_en)
 
-            t.append(Tense(tense, it, en))
+            m.add(Tense(tense, it, en))
 
-        return Mood(mood, t)
+        return m
 
     @property
     def english_name(self):
