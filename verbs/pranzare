@@ -1,0 +1,21 @@
+[misc]
+en=to lunch
+auxiliary=avere
+gerund=pranzando
+past-m=pranzato
+
+[indicative]
+present-it=pranzo;pranzi;pranza;pranziamo;pranzate;pranzano;
+imperfect-it=pranzavo;pranzavi;pranzava;pranzavamo;pranzavate;pranzavano;
+past-it=pranzai;pranzasti;pranzò;pranzammo;pranzaste;pranzarono;
+future-it=pranzerò;pranzerai;pranzerà;pranzeremo;pranzerete;pranzeranno;
+
+[conditional]
+present-it=pranzerei;pranzeresti;pranzerebbe;pranzeremmo;pranzereste;pranzerebbero;
+
+[subjunctive]
+present-it=pranzi;pranzi;pranzi;pranziamo;pranziate;pranzino;
+imperfect-it=pranzassi;pranzassi;pranzasse;pranzassimo;pranzaste;pranzassero;
+
+[imperative]
+present-it=;pranza;pranzi;pranziamo;pranzate;pranzino;

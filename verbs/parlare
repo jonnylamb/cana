@@ -1,0 +1,23 @@
+[misc]
+en=to speak
+auxiliary=avere
+gerund=parlando
+past-m=parlato
+
+[indicative]
+present-it=parlo;parli;parla;parliamo;parlate;parlano;
+present-en=speak;speak;speaks;speak;speak;speak;
+imperfect-it=parlavo;parlavi;parlava;parlavamo;parlavate;parlavano;
+past-it=parlai;parlasti;parlò;parlammo;parlaste;parlarono;
+future-it=parlerò;parlerai;parlerà;parleremo;parlerete;parleranno;
+future-en=will speak;will speak;will speak;will speak;will speak;will speak;
+
+[conditional]
+present-it=parlerei;parleresti;parlerebbe;parleremmo;parlereste;parlerebbero;
+
+[subjunctive]
+present-it=parli;parli;parli;parliamo;parliate;parlino;
+imperfect-it=parlassi;parlassi;parlasse;parlassimo;parlaste;parlassero;
+
+[imperative]
+present-it=;parla;parli;parliamo;parlate;parlino;
