@@ -65,11 +65,17 @@ class Mood(object):
         self.name = name
         self.tenses = []
 
+        self.random_iter = []
+
     def add(self, tense):
         self.tenses.append(tense)
 
     def random(self):
-        return random.choice(self.tenses)
+        if not self.random_iter:
+            self.random_iter = self.tenses[:]
+            random.shuffle(self.random_iter)
+
+        return self.random_iter.pop()
 
 class Verb(object):
     def __init__(self, name):
