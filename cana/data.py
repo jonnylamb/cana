@@ -90,6 +90,8 @@ class Verb(object):
                                                  ['present', 'imperfect', 'future'])
         if not self.skip_past:
             self.do_simple_past(self.indicative)
+        if not self.skip_gerund:
+            self.do_gerund(self.indicative)
 
         self.random_iter = []
 
@@ -123,6 +125,8 @@ class Verb(object):
             it = zip(personal_it, conj_it)
             en = zip(personal_en, conj_en)
 
+            # it = [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
+            # (ignoring that that's past)
             m.add(Tense(tense, it, en))
 
         return m
@@ -148,10 +152,21 @@ class Verb(object):
 
         pasts = [self.past_m] * 2 + [tps_past] + [self.past_m] * 3
 
+        # [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
         it = [(personal_it[x], '%s %s' % (aux[x], pasts[x])) for x in range(6)]
 
         empty = [''] * 6
         mood.add(Tense('simple past', it, zip(empty, empty)))
+
+    def do_gerund(self, mood):
+        personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
+        it_stare = ['sto', 'stai', 'sta', 'stiamo', 'state', 'stanno']
+
+        # [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
+        it = [(personal_it[x], '%s %s' % (it_stare[x], self.gerund)) for x in range(6)]
+
+        empty = [''] * 6
+        mood.add(Tense('gerund', it, zip(empty, empty)))
 
     @property
     def english_name(self):
@@ -161,6 +176,13 @@ class Verb(object):
     def skip_past(self):
         try:
             return not bool(self.past_m)
+        except:
+            return True
+
+    @property
+    def skip_gerund(self):
+        try:
+            return not bool(self.gerund)
         except:
             return True
 
