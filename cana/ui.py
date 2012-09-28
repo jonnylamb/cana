@@ -27,6 +27,10 @@ class BaseWindow(Gtk.Window):
 
         self.set_default(self.nextbutton)
 
+        self.score = Gtk.Label('')
+        self.vbox.pack_end(self.score, False, False, 0)
+        self.score.show()
+
     def activated(self, shrug, data):
         raise NotImplementedErrr
 
@@ -133,6 +137,7 @@ class VerbWindow(BaseWindow):
         entry.show()
 
         self.random_iter = []
+        self.score_count = [0, 0]
 
         self.next()
 
@@ -153,7 +158,19 @@ class VerbWindow(BaseWindow):
     def complete(self):
         return self.entry.get_text() != ''
 
+    def update_score(self):
+        if self.question.get_text() is not '':
+            passed = not self.correction.get_visible()
+
+            if passed:
+                self.score_count[0] += 1
+            self.score_count[1] += 1
+
+        self.score.set_text('%s/%s' % (self.score_count[0], self.score_count[1]))
+
     def next(self):
+        self.update_score()
+
         # clear up first
         self.question.set_text('')
         self.correction.hide()
