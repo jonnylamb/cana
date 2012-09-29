@@ -32,7 +32,7 @@ class BaseWindow(Gtk.Window):
         self.score.show()
 
     def activated(self, shrug, data):
-        raise NotImplementedErrr
+        raise NotImplementedError
 
 class TestWindow(BaseWindow):
     def __init__(self, data):
