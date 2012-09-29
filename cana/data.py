@@ -176,12 +176,15 @@ class Verb(object):
     def do_gerund(self, mood):
         personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
         it_stare = ['sto', 'stai', 'sta', 'stiamo', 'state', 'stanno']
+        en_be = ['i am', 'you are', 'she is', 'we are', 'you (pl) are', 'they are']
 
-        # [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
+        # [('io', 'sto mangiando'), ('tu', 'stai mangiando'), ...]
         it = [(personal_it[x], '%s %s' % (it_stare[x], self.gerund)) for x in range(6)]
 
-        empty = [''] * 6
-        mood.add(Tense('gerund', it, zip(empty, empty)))
+        # [('i am', 'eating'), ...]
+        en = [(en_be[x], self.gerund_en) for x in range(6)]
+
+        mood.add(Tense('gerund', it, en))
 
     @property
     def english_name(self):
@@ -208,6 +211,10 @@ class Verb(object):
     @property
     def gerund(self):
         return self.keyfile.get_string('misc', 'gerund')
+
+    @property
+    def gerund_en(self):
+        return self.keyfile.get_string('misc', 'gerund-en')
 
     @property
     def past_m(self):
