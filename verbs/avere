@@ -1,6 +1,8 @@
 [misc]
 en=to have
 auxiliary=avere
+past-m=avuto
+past-en=got
 
 [indicative]
 present-it=ho;hai;ha;abbiamo;avete;hanno;

@@ -2,15 +2,20 @@
 en=to stay
 auxiliary=essere
 past-m=stato
+past-en=stayed
 
 [indicative]
 present-it=sto;stai;sta;stiamo;state;stanno;
+present-en=stay;stay;stays;stay;stay;stay;
 imperfect-it=stavo;stavi;stava;stavamo;stavate;stavano;
+imperfect-en=used to stay;used to stay;used to stay;used to stay;used to stay;used to stay;
 past-it=stetti;stesti;stette;stemmo;steste;stettero;
 future-it=starò;starai;starà;staremo;starete;staranno;
+future-en=will stay;will stay;will stay;will stay;will stay;will stay;
 
 [conditional]
 present-it=starei;staresti;starebbe;staremmo;stareste;starebbero;
 
 [imperative]
 present-it=;sta;stia;stiamo;state;stiano;
+present-en=;stay!;stay!;stay!;stay!;stay!;

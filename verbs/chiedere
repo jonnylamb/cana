@@ -2,13 +2,18 @@
 en=to ask
 auxiliary=avere
 gerund=chiedendo
+gerund-en=asking
 past-m=chiesto
+past-en=asked
 
 [indicative]
 present-it=chiedo;chiedi;chiede;chiediamo;chiedete;chiedono;
+present-en=ask;ask;asks;ask;ask;ask;
 imperfect-it=chiedevo;chiedevi;chiedeva;chiedevamo;chiedevate;chiedevano;
+imperfect-en=used to ask;used to ask;used to ask;used to ask;used to ask;used to ask;
 past-it=chiesi;chiedesti;chiese;chiedemmo;chiedeste;chiesero;
 future-it=chiederò;chiederai;chiederà;chiederemo;chiederete;chiederanno;
+future-en=will ask;will ask;will ask;will ask;will ask;will ask;
 
 [conditional]
 present-it=chiederei;chiederesti;chiederebbe;chiederemmo;chiedereste;chiederebbero;

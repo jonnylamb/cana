@@ -2,13 +2,18 @@
 en=to close
 auxiliary=avere
 gerund=chiudendo
+gerund-en=closing
 past-m=chiuso
+past-en=closed
 
 [indicative]
 present-it=chiudo;chiudi;chiude;chiudiamo;chiudete;chiudono;
+present-en=close;close;closes;close;close;close;
 imperfect-it=chiudevo;chiudevi;chiudeva;chiudevamo;chiudevate;chiudevano;
+imperfect-en=used to close;used to close;used to close;used to close;used to close;used to close;
 past-it=chiusi;chiudesti;chiuse;chiudemmo;chiudeste;chiusero;
 future-it=chiuderò;chiuderai;chiuderà;chiuderemo;chiuderete;chiuderanno;
+future-en=will close;will close;will close;will close;will close;will close;
 
 [conditional]
 present-it=chiuderei;chiuderesti;chiuderebbe;chiuderemmo;chiudereste;chiuderebbero;

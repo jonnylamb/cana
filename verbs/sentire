@@ -2,12 +2,16 @@
 en=to feel
 auxiliary=avere
 past-m=sentito
+past-en=felt
 
 [indicative]
 present-it=sento;senti;sente;sentiamo;sentite;sentono;
+present-en=feel;feel;feels;feel;feel;feel;
 imperfect-it=sentivo;sentivi;sentiva;sentivamo;sentivate;sentivano;
+imperfect-en=used to feel;used to feel;used to feel;used to feel;used to feel;used to feel;
 past-it=sentii;sentisti;sentì;sentimmo;sentiste;sentirono;
 future-it=sentirò;sentirai;sentirà;sentiremo;sentirete;sentiranno;
+future-en=will feel;will feel;will feel;will feel;will feel;will feel;
 
 [conditional]
 present-it=sentirei;sentiresti;sentirebbe;sentiremmo;sentireste;sentirebbero;

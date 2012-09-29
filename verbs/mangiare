@@ -2,12 +2,15 @@
 en=to eat
 auxiliary=avere
 gerund=mangiando
+gerund-en=eating
 past-m=mangiato
+past-en=ate
 
 [indicative]
 present-it=mangio;mangi;mangia;mangiamo;mangiate;mangiano;
 present-en=eat;eat;eats;eat;eat;eat;
 imperfect-it=mangiavo;mangiavi;mangiava;mangiavamo;mangiavate;mangiavano;
+imperfect-en=used to eat;used to eat;used to eat;used to eat;used to eat;used to eat;
 past-it=mangiai;mangiasti;mangiò;mangiammo;mangiaste;mangiarono;
 future-it=mangerò;mangerai;mangerà;mangeremo;mangerete;mangeranno;
 future-en=will eat;will eat;will eat;will eat;will eat;will eat;
@@ -21,3 +24,4 @@ imperfect-it=mangiassi;mangiassi;mangiasse;mangiassimo;mangiaste;mangiassero;
 
 [imperative]
 present-it=;mangia;mangi;mangiamo;mangiate;mangino;
+present-en=;eat!;eat!;eat!;eat!;eat!;

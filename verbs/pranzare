@@ -2,13 +2,18 @@
 en=to lunch
 auxiliary=avere
 gerund=pranzando
+gerund-en=lunching
 past-m=pranzato
+past-en=lunched
 
 [indicative]
 present-it=pranzo;pranzi;pranza;pranziamo;pranzate;pranzano;
+present-en=lunch;lunch;lunches;lunch;lunch;lunch;
 imperfect-it=pranzavo;pranzavi;pranzava;pranzavamo;pranzavate;pranzavano;
+imperfect-en=used to lunch;used to lunch;used to lunch;used to lunch;used to lunch;used to lunch;
 past-it=pranzai;pranzasti;pranzò;pranzammo;pranzaste;pranzarono;
 future-it=pranzerò;pranzerai;pranzerà;pranzeremo;pranzerete;pranzeranno;
+future-en=will lunch;will lunch;will lunch;will lunch;will lunch;will lunch;
 
 [conditional]
 present-it=pranzerei;pranzeresti;pranzerebbe;pranzeremmo;pranzereste;pranzerebbero;
