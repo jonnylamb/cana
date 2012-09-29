@@ -150,6 +150,7 @@ class Verb(object):
         elif self.auxiliary == 'avere':
             aux = ['ho', 'hai', 'ha', 'abbiamo', 'avete', 'hanno']
             tps_past = self.past_m
+            p_past = self.past_m
         else:
             raise Exception('unknown auxiliary: %s' % self.auxiliary)
 
