@@ -138,6 +138,7 @@ class Verb(object):
 
     def do_simple_past(self, mood):
         personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
+        personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
 
         if self.auxiliary == 'essere':
             aux = ['sono', 'sei', 'è', 'siamo', 'siete', 'sono']
@@ -164,8 +165,13 @@ class Verb(object):
         # [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
         it = [(personal_it[x], '%s %s' % (aux[x], pasts[x])) for x in range(6)]
 
-        empty = [''] * 6
-        mood.add(Tense('simple past', it, zip(empty, empty)))
+        try:
+            en = [(personal_en[x], self.past_en) for x in range(6)]
+        except:
+            empty = [''] * 6
+            en = zip(empty, empty)
+
+        mood.add(Tense('simple past', it, en))
 
     def do_gerund(self, mood):
         personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
@@ -210,3 +216,7 @@ class Verb(object):
     @property
     def past_f(self):
         return self.keyfile.get_string('misc', 'past-f')
+
+    @property
+    def past_en(self):
+        return self.keyfile.get_string('misc', 'past-en')
