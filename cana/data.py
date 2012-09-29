@@ -13,12 +13,13 @@ class Data(object):
                                     GLib.KeyFileFlags.KEEP_COMMENTS)
 
     def dates(self, date):
-        if date is None:
-            date = datetime(1970, 1, 1)
-
         ret = []
 
         groups, _ = self.keyfile.get_groups()
+
+        if date is None:
+            return groups
+
         for group in groups:
             groupdate = datetime.strptime(group, '%Y-%m-%d')
 
