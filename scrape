@@ -5,8 +5,8 @@ import urllib2
 import codecs
 from BeautifulSoup import BeautifulSoup
 
-if len(sys.argv[1:]) != 2:
-    print './scrape [verb] [english name]'
+if len(sys.argv[1:]) not in (2,3):
+    print './scrape verb english_name [english_past]'
     sys.exit(1)
 
 req = urllib2.Request('http://en.wiktionary.org/wiki/' + sys.argv[1], '',
@@ -53,17 +53,26 @@ en = english.split(' ')[-1]
 # eat;eat;eats;eat;eat;eat;
 i_p_es = ';'.join([en] * 2 + [en + 's'] + [en] * 3) + ';'
 i_f_es = ';'.join(['will ' + en] * 6) + ';'
+i_i_es = ';'.join(['used to ' + en] * 6) + ';'
+i_es = ';'.join([en + '!'] * 6) + ';'
+g_es = en + 'ing'
+
+past_en = ''
+if len(sys.argv) == 3:
+    past_en = '\npast-en=' + sys.argv[3]
 
 s = '''[misc]
 en=%(english)s
 auxiliary=%(aux)s
 gerund=%(gerund)s
-past-m=%(past)s
+past-m=%(past)s%(past_en)
+gerund-en=%(g_es)s
 
 [indicative]
 present-it=%(i_p_s)s
 present-en=%(i_p_es)s
 imperfect-it=%(i_i_s)s
+imperfect-en=%(i_i_es)s
 past-it=%(i_p_h_s)s
 future-it=%(i_f_s)s
 future-en=%(i_f_es)s
@@ -77,6 +86,7 @@ imperfect-it=%(s_i_s)s
 
 [imperative]
 present-it=%(i_s)s
+present-en=%(i_es)s
 ''' % globals()
 
 s.encode('utf-8')
@@ -84,5 +94,9 @@ s.encode('utf-8')
 f = codecs.open('verbs/' + sys.argv[1], 'w', 'utf-8')
 f.write(s)
 f.close()
+
+if ',' in s:
+    print 'WARNING: contains commas, you should check by hand'
+
 print 'done.'
 
