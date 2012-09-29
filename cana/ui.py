@@ -119,12 +119,13 @@ class TestWindow(BaseWindow):
             pass
 
 class VerbWindow(BaseWindow):
-    english_names = ['1st person singular',
+    old_english_names = ['1st person singular',
                      '2nd person singular',
                      '3rd person singular',
                      '1st person plural',
                      '2nd person plural',
                      '3rd person plural']
+    english_names = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
 
     def __init__(self, verbs):
         BaseWindow.__init__(self)
