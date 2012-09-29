@@ -98,6 +98,9 @@ class Verb(object):
         if not self.skip_gerund:
             self.do_gerund(self.indicative)
 
+        # ignore this for now
+        #self.imperative = self.parse_conjugation('imperative', ['present'])
+
         self.random_iter = []
 
     def random(self):
