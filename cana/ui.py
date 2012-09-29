@@ -119,12 +119,6 @@ class TestWindow(BaseWindow):
             pass
 
 class VerbWindow(BaseWindow):
-    old_english_names = ['1st person singular',
-                     '2nd person singular',
-                     '3rd person singular',
-                     '1st person plural',
-                     '2nd person plural',
-                     '3rd person plural']
     english_names = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
 
     def __init__(self, verbs):
@@ -185,8 +179,6 @@ class VerbWindow(BaseWindow):
         num, display, answers = self.iter
 
         if display == ' ': # I don't like this any more than you
-            # this would have been cooler
-            #english_name = ['%s person %s' % (x,y) for x in ['1st', '2nd', '3rd'] for y in ['singular', 'plural']][num]
             english_name = self.english_names[num]
 
             display = '%s %s\n%s\n<i>%s</i>' % (mood.name, tense.name, english_name, verb.english_name)
