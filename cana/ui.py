@@ -1,10 +1,12 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 import random
 
 class BaseWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self)
+
+        self.connect('key-press-event', self.key_press_event)
 
         self.vbox = Gtk.VBox(False, 5)
         self.add(self.vbox)
@@ -33,6 +35,13 @@ class BaseWindow(Gtk.Window):
 
     def activated(self, shrug, data):
         raise NotImplementedError
+
+    def key_press_event(self, window, event):
+        if (event.state & Gdk.ModifierType.CONTROL_MASK \
+            and event.keyval == Gdk.KEY_q) or \
+            event.keyval == Gdk.KEY_Escape:
+            # block starts here
+            window.destroy()
 
 class TestWindow(BaseWindow):
     def __init__(self, data):
