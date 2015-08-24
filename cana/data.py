@@ -147,12 +147,17 @@ class Verb(object):
                 conj_en = personal_en = [''] * 6
 
             personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
+            if mood == 'indicative' and tense == 'imperfect':
+                # arguably avevo = ho avuto in English, so if so, append a suffix
+                if self.past_en == conj_en[0]:
+                    conj_en = [x + ' (imperfect)' for x in conj_en]
             if mood == 'subjunctive':
                 personal_it = ['che io', 'che tu', 'che lei', 'che noi', 'che voi', 'che loro']
             elif mood == 'imperative':
                 personal_it[0] = ''
             elif mood == 'conditional' and conj_en == personal_en: # empty translation
                 personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
+                # if the verb is "to dance it off", use "dance it off"
                 conj_en = [' '.join(self.english_name.split(' ')[1:])] * 6
 
             it = zip(personal_it, conj_it)
