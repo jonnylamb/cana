@@ -111,7 +111,7 @@ class Verb(object):
             personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
             if mood == 'indicative' and tense == 'imperfect':
                 # arguably avevo = ho avuto in English, so if so, append a suffix
-                if self.past_en == conj_en[0]:
+                if not self.skip_past and self.past_en == conj_en[0]:
                     conj_en = [x + ' (imperfect)' for x in conj_en]
             if mood == 'subjunctive':
                 personal_it = ['che io', 'che tu', 'che lei', 'che noi', 'che voi', 'che loro']
