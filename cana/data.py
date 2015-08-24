@@ -37,7 +37,7 @@ class Data(object):
             keys, _ = self.keyfile.get_keys(group)
 
             for key in keys:
-                vals, _x = self.keyfile.get_string_list(group, key)
+                vals = self.keyfile.get_string_list(group, key)
 
                 ret[key] = vals
 
