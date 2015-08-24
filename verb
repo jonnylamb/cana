@@ -3,28 +3,37 @@
 import os
 import sys
 
+from gi.repository import Gio
+
 from cana.data import Verb
 from cana.ui import VerbWindow
 from cana.app import Application
 
-def activate(app, verbs):
+def parse(verblist):
+    verbs = []
+    for f in verblist:
+        verbs.append(Verb(f))
+
+    return verbs
+
+def activate(app, verbs=None):
+    if verbs is None:
+        verbs = parse(os.listdir('verbs'))
+
     window = VerbWindow(verbs)
     window.fullscreen()
     app.add_window(window)
     window.show()
 
+def opened(app, files, hint, data):
+    verbs = parse([x.get_basename() for x in files])
+    activate(app, verbs)
+
 if __name__ == '__main__':
     app = Application()
+    app.set_flags(Gio.ApplicationFlags.HANDLES_OPEN)
 
-    if len(sys.argv) > 1:
-        verblist = sys.argv[1:]
-    else:
-        verblist = os.listdir('verbs')
-
-    verbs = []
-    for f in verblist:
-        verbs.append(Verb(f))
-
-    app.connect('activate', activate, verbs)
+    app.connect('activate', activate)
+    app.connect('open', opened)
 
     app.run(sys.argv)
