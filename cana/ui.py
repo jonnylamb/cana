@@ -159,6 +159,7 @@ class VerbWindow(BaseWindow):
 
         return children[0]
 
+    @property
     def complete(self):
         return self.entry.get_text() != ''
 
@@ -212,7 +213,7 @@ class VerbWindow(BaseWindow):
     def activated(self, window, data):
 
         # is it complete?
-        if not self.complete():
+        if not self.complete:
             return
 
         if not self.check():
