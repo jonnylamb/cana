@@ -133,7 +133,7 @@ class Verb(object):
 
         for tense in tenses:
             try:
-                conj_it, _ = self.keyfile.get_string_list(mood, tense + '-it')
+                conj_it = self.keyfile.get_string_list(mood, tense + '-it')
             except:
                 continue
 
