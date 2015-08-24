@@ -119,9 +119,10 @@ class Verb(object):
 
     def random(self):
         if not self.random_iter:
-            self.random_iter = [self.indicative]
-            if self.conditional.has_tenses():
-                self.random_iter.append(self.conditional)
+            self.random_iter = []
+            for i in (self.indicative, self.conditional):
+                if i.has_tenses():
+                    self.random_iter.append(i)
 
             random.shuffle(self.random_iter)
 
