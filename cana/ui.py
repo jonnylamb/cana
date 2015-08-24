@@ -43,90 +43,6 @@ class BaseWindow(Gtk.Window):
             # block starts here
             window.destroy()
 
-class TestWindow(BaseWindow):
-    def __init__(self, data):
-        BaseWindow.__init__(self)
-
-        self.data = data
-        self.keys = data.keys()
-        random.shuffle(self.keys)
-
-        self.next()
-
-    def next(self):
-        # clear up first
-        self.question.set_text('')
-        self.correction.hide()
-        self.entrybox.foreach(lambda w, c: c.remove(w), self.entrybox)
-
-        self.iter = self.keys.pop()
-        values = self.data[self.iter]
-
-        self.question.set_markup('<span font="Sans 60">%s</span>' % self.iter)
-
-        for val in values:
-            entry = Gtk.Entry()
-            entry.set_activates_default(True)
-            self.entrybox.add(entry)
-            entry.show()
-
-        self.give_focus()
-
-    def give_focus(self):
-        # returns True if all entries have something, otherwise Fals
-        # go in reverse so we don't select all the completed entries
-        children = self.entrybox.get_children()
-        children.reverse()
-
-        ret = True
-
-        for entry in children:
-            if entry.get_text() == '':
-                entry.grab_focus()
-                ret = False
-
-        return ret
-
-    def check(self):
-        res = True
-        values = self.data[self.iter][:]
-
-        for entry in self.entrybox.get_children():
-            tmp = entry.get_text()
-            entry.set_text('')
-
-            if tmp in values:
-                values.remove(tmp)
-            else:
-                res = False
-
-        if not res:
-            values = self.data[self.iter]
-            values_markup = ['<span font="Sans 60" foreground="red">%s</span>' % x for x in values]
-
-            self.correction.set_markup('\n'.join(values_markup))
-            self.correction.show()
-
-            self.give_focus()
-
-        return res
-
-    def activated(self, window, data):
-
-        # is it complete?
-        if not self.give_focus():
-            return
-
-        if not self.check():
-            return
-
-        try:
-            self.next()
-        except IndexError:
-            # TODO end
-            self.question.set_markup('<span font="Sans Italic 60">fin</span>')
-            pass
-
 class VerbWindow(BaseWindow):
     english_names = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
 
@@ -225,4 +141,3 @@ class VerbWindow(BaseWindow):
             # TODO end
             self.question.set_markup('<span font="Sans Italic 60">fin</span>')
             pass
-
