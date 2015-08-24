@@ -94,6 +94,7 @@ class Verb(object):
 
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
+        self.conditional = self.parse_conjugation('conditional', ['present'])
         if not self.skip_past:
             self.do_simple_past(self.indicative)
         if not self.skip_gerund:
@@ -106,7 +107,7 @@ class Verb(object):
 
     def random(self):
         if not self.random_iter:
-            self.random_iter = [self.indicative]
+            self.random_iter = [self.indicative, self.conditional]
             random.shuffle(self.random_iter)
 
         return self.random_iter.pop()
@@ -116,7 +117,10 @@ class Verb(object):
         m = Mood(mood)
 
         for tense in tenses:
-            conj_it, _ = self.keyfile.get_string_list(mood, tense + '-it')
+            try:
+                conj_it, _ = self.keyfile.get_string_list(mood, tense + '-it')
+            except:
+                continue
 
             try:
                 conj_en, _ = self.keyfile.get_string_list(mood, tense + '-en')
@@ -130,6 +134,9 @@ class Verb(object):
                 personal_it = ['che io', 'che tu', 'che lei', 'che noi', 'che voi', 'che loro']
             elif mood == 'imperative':
                 personal_it[0] = ''
+            elif mood == 'conditional' and conj_en == personal_en: # empty translation
+                personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
+                conj_en = [self.english_name.split(' ')[-1]] * 6
 
             it = zip(personal_it, conj_it)
             en = zip(personal_en, conj_en)
