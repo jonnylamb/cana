@@ -139,7 +139,7 @@ class Verb(object):
                 continue
 
             try:
-                conj_en, _ = self.keyfile.get_string_list(mood, tense + '-en')
+                conj_en = self.keyfile.get_string_list(mood, tense + '-en')
                 personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
             except:
                 # english doesn't exist, no wuckers
