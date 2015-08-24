@@ -135,13 +135,14 @@ class Verb(object):
         for tense in tenses:
             try:
                 conj_it = self.keyfile.get_string_list(mood, tense + '-it')
-            except:
+            except Exception as e:
+                print 'hit while parsing %s %s: %s' % (mood, tense, e)
                 continue
 
             try:
                 conj_en = self.keyfile.get_string_list(mood, tense + '-en')
                 personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
-            except:
+            except Exception as e:
                 # english doesn't exist, no wuckers
                 conj_en = personal_en = [''] * 6
 
