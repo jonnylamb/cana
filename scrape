@@ -9,16 +9,20 @@ if len(sys.argv[1:]) not in (2,3):
     print './scrape verb english_name [english_past]'
     sys.exit(1)
 
+if not sys.argv[2].startswith('to '):
+    print 'english name should start with "to"'
+    sys.exit(1)
+
 req = urllib2.Request('http://en.wiktionary.org/wiki/' + sys.argv[1], '',
                        {'User-Agent': 'jonnylamb@jonnylamb.com'})
 response = urllib2.urlopen(req)
 data = response.read()
 soup = BeautifulSoup(data)
 
-div = soup.findAll('div', text='&#160; &#160; Conjugation of ' + sys.argv[1])
+div = soup.findAll('div', attrs={'class': 'NavHead'})
 tables = div[0].parent.parent.findAll('table')
-assert len(tables) == 1
-table = tables[0]
+assert len(tables) == 2
+table = tables[1]
 
 gerund = str(table.findAll('th', text='gerund')[0].parent.nextSibling.nextSibling.text)
 aux = str(table.findAll('th', text='auxiliary verb')[0].parent.nextSibling.nextSibling.text)
@@ -48,13 +52,13 @@ c_p_s = ';'.join([x.text for x in conditional_present.findAll('td')]) + ';'
 i_s = ';'.join([x.text for x in imperative.findAll('td')]) + ';'
 
 english = sys.argv[2]
-en = english.split(' ')[-1]
+en = ' '.join(english.split(' ')[1:])
 
 # eat;eat;eats;eat;eat;eat;
 i_p_es = ';'.join([en] * 2 + [en + 's'] + [en] * 3) + ';'
 i_f_es = ';'.join(['will ' + en] * 6) + ';'
 i_i_es = ';'.join(['used to ' + en] * 6) + ';'
-i_es = ';'.join([en + '!'] * 6) + ';'
+i_es = ';' + ';'.join([en + '!'] * 5) + ';'
 g_es = en + 'ing'
 
 past_en = ''
