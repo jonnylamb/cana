@@ -6,14 +6,15 @@ from cana.data import Data
 from cana.ui import TestWindow
 from cana.app import Application
 
+def activate(app, data):
+    window = TestWindow(data.italian())
+    app.add_window(window)
+    window.show()
+
 if __name__ == '__main__':
     data = Data('words')
 
     app = Application()
-
-    # TODO: add this to the activate callback of the application
-    window = TestWindow(data.italian())
-    app.add_window(window)
-    window.show()
+    app.connect('activate', activate, data)
 
     app.run(sys.argv)

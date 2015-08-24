@@ -7,6 +7,12 @@ from cana.data import Verb
 from cana.ui import VerbWindow
 from cana.app import Application
 
+def activate(app, verbs):
+    window = VerbWindow(verbs)
+    window.fullscreen()
+    app.add_window(window)
+    window.show()
+
 if __name__ == '__main__':
     app = Application()
 
@@ -19,10 +25,6 @@ if __name__ == '__main__':
     for f in verblist:
         verbs.append(Verb(f))
 
-    # TODO: add this to the activate callback of the application
-    window = VerbWindow(verbs)
-    window.fullscreen()
-    app.add_window(window)
-    window.show()
+    app.connect('activate', activate, verbs)
 
     app.run(sys.argv)
