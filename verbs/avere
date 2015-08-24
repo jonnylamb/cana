@@ -2,7 +2,7 @@
 en=to have
 auxiliary=avere
 past-m=avuto
-past-en=got
+past-en=had
 
 [indicative]
 present-it=ho;hai;ha;abbiamo;avete;hanno;
@@ -13,4 +13,4 @@ future-it=avrò;avrai;avrà;avremo;avrete;avranno;
 future-en=will have;will have;will have;will have;will have;will have;
 
 [conditional]
-future-it=avrei;avresti;avrebbe;avremmo;avreste;avrebbero;
+present-it=avrei;avresti;avrebbe;avremmo;avreste;avrebbero;
