@@ -33,7 +33,7 @@ class BaseWindow(Gtk.Window):
         self.vbox.pack_end(self.score, False, False, 0)
         self.score.show()
 
-    def activated(self, shrug, data):
+    def activated(self, window, data):
         raise NotImplementedError
 
     def key_press_event(self, window, event):
@@ -111,7 +111,7 @@ class TestWindow(BaseWindow):
 
         return res
 
-    def activated(self, shrug, data):
+    def activated(self, window, data):
 
         # is it complete?
         if not self.give_focus():
@@ -209,7 +209,7 @@ class VerbWindow(BaseWindow):
         self.entry.grab_focus()
         return False
 
-    def activated(self, shrug, data):
+    def activated(self, window, data):
 
         # is it complete?
         if not self.complete():
