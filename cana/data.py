@@ -84,6 +84,9 @@ class Mood(object):
 
         return self.random_iter.pop()
 
+    def has_tenses(self):
+        return bool(self.tenses)
+
 class Verb(object):
     def __init__(self, name):
         self.name = name
@@ -107,7 +110,10 @@ class Verb(object):
 
     def random(self):
         if not self.random_iter:
-            self.random_iter = [self.indicative, self.conditional]
+            self.random_iter = [self.indicative]
+            if self.conditional.has_tenses():
+                self.random_iter.append(self.conditional)
+
             random.shuffle(self.random_iter)
 
         return self.random_iter.pop()
