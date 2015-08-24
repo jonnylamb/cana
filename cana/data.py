@@ -112,6 +112,8 @@ class Verb(object):
         # ignore this for now
         #self.imperative = self.parse_conjugation('imperative', ['present'])
 
+        self.subjunctive = self.parse_conjugation('subjunctive', ['present', 'imperfect'])
+
         self.random_iter = []
 
     def __str__(self):
@@ -120,7 +122,7 @@ class Verb(object):
     def random(self):
         if not self.random_iter:
             self.random_iter = []
-            for i in (self.indicative, self.conditional):
+            for i in (self.indicative, self.conditional, self.subjunctive):
                 if i.has_tenses():
                     self.random_iter.append(i)
 
