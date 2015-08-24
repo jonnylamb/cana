@@ -65,7 +65,7 @@ s = u'''[misc]
 en=%(english)s
 auxiliary=%(aux)s
 gerund=%(gerund)s
-past-m=%(past)s%(past_en)
+past-m=%(past)s%(past_en)s
 gerund-en=%(g_es)s
 
 [indicative]
