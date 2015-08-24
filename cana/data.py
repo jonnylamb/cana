@@ -153,7 +153,7 @@ class Verb(object):
                 personal_it[0] = ''
             elif mood == 'conditional' and conj_en == personal_en: # empty translation
                 personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
-                conj_en = [self.english_name.split(' ')[-1]] * 6
+                conj_en = [' '.join(self.english_name.split(' ')[1:])] * 6
 
             it = zip(personal_it, conj_it)
             en = zip(personal_en, conj_en)
