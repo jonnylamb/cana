@@ -51,6 +51,9 @@ class Tense(object):
 
         self.random_iter = []
 
+    def __str__(self):
+        return '<Tense: %s>' % self.name
+
     def italian(self):
         # of form: (0, 'i am', ('io sono', 'sono'))
 
@@ -73,6 +76,9 @@ class Mood(object):
         self.tenses = []
 
         self.random_iter = []
+
+    def __str__(self):
+        return '<Mood: %s>' % self.name
 
     def add(self, tense):
         self.tenses.append(tense)
@@ -107,6 +113,9 @@ class Verb(object):
         #self.imperative = self.parse_conjugation('imperative', ['present'])
 
         self.random_iter = []
+
+    def __str__(self):
+        return '<Verb: %s>' % self.name
 
     def random(self):
         if not self.random_iter:
