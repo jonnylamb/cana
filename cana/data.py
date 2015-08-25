@@ -4,15 +4,26 @@ import random
 from gi.repository import GLib
 
 class Tense(object):
-    def __init__(self, name, foreign, en):
+    def __init__(self, name, foreign, en, require_personal=False, special=None):
         self.name = name
         self.foreign = foreign # [('io', 'sono'), ('tu', 'sei'), ...]
         self.en = en # [('i', 'am'), ...]
+        self.require_personal = require_personal
+        self.special = special
+
+        if not self.special:
+            self.special = lambda s: s
 
         self.random_iter = []
 
     def __str__(self):
         return '<Tense: %s>' % self.name
+
+    def answers(self):
+        if self.require_personal:
+            return [tuple([self.special(' '.join(x))]) for x in self.foreign]
+        else:
+            return [(x[-1], self.special(' '.join(x))) for x in self.foreign]
 
     def random(self):
         # of form: (0, 'i am', ('io sono', 'sono'))
@@ -20,7 +31,7 @@ class Tense(object):
         if not self.random_iter:
             self.random_iter = zip(range(6),
                                    [' '.join(x) for x in self.en],
-                                   [(x[-1], ' '.join(x)) for x in self.foreign])
+                                   self.answers())
             random.shuffle(self.random_iter)
 
         if self.random_iter[0] == 0 and self.random_iter[1] == 'i ':
