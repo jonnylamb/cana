@@ -160,7 +160,7 @@ class ItalianVerb(Verb):
             try:
                 conj_it = self.keyfile.get_string_list(mood, tense + '-it')
             except Exception as e:
-                print 'hit while parsing %s %s: %s' % (mood, tense, e)
+                print 'problem parsing %s %s: %s' % (mood, tense, e)
                 continue
 
             try:
