@@ -100,7 +100,7 @@ class VerbWindow(BaseWindow):
         verb = self.random()
         mood = verb.random()
         tense = mood.random()
-        self.iter = tense.italian()
+        self.iter = tense.random()
 
         num, display, answers = self.iter
 

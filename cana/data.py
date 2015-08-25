@@ -4,9 +4,9 @@ import random
 from gi.repository import GLib
 
 class Tense(object):
-    def __init__(self, name, it, en):
+    def __init__(self, name, foreign, en):
         self.name = name
-        self.it = it # [('io', 'sono'), ('tu', 'sei'), ...]
+        self.foreign = foreign # [('io', 'sono'), ('tu', 'sei'), ...]
         self.en = en # [('i', 'am'), ...]
 
         self.random_iter = []
@@ -14,19 +14,19 @@ class Tense(object):
     def __str__(self):
         return '<Tense: %s>' % self.name
 
-    def italian(self):
+    def random(self):
         # of form: (0, 'i am', ('io sono', 'sono'))
 
         if not self.random_iter:
             self.random_iter = zip(range(6),
                                    [' '.join(x) for x in self.en],
-                                   [(x[-1], ' '.join(x)) for x in self.it])
+                                   [(x[-1], ' '.join(x)) for x in self.foreign])
             random.shuffle(self.random_iter)
 
         if self.random_iter[0] == 0 and self.random_iter[1] == 'i ':
             # imperative first person singular
             self.random_iter.pop()
-            return self.italian()
+            return self.random()
 
         return self.random_iter.pop()
 
@@ -61,6 +61,69 @@ class Verb(object):
         self.keyfile.load_from_file('verbs/' + self.name,
                                     GLib.KeyFileFlags.KEEP_COMMENTS)
 
+        self.moods = []
+        self.random_iter = []
+
+    def __str__(self):
+        return '<Verb: %s>' % self.name
+
+    def random(self):
+        if not self.random_iter:
+            self.random_iter = []
+            for i in self.moods:
+                if i.has_tenses():
+                    self.random_iter.append(i)
+
+            random.shuffle(self.random_iter)
+
+        return self.random_iter.pop()
+
+    @property
+    def english_name(self):
+        return self.keyfile.get_string('misc', 'en')
+
+    @property
+    def skip_past(self):
+        try:
+            return not bool(self.past_m)
+        except:
+            return True
+
+    @property
+    def skip_gerund(self):
+        try:
+            return not bool(self.gerund)
+        except:
+            return True
+
+    @property
+    def auxiliary(self):
+        return self.keyfile.get_string('misc', 'auxiliary')
+
+    @property
+    def gerund(self):
+        return self.keyfile.get_string('misc', 'gerund')
+
+    @property
+    def gerund_en(self):
+        return self.keyfile.get_string('misc', 'gerund-en')
+
+    @property
+    def past_m(self):
+        return self.keyfile.get_string('misc', 'past-m')
+
+    @property
+    def past_f(self):
+        return self.keyfile.get_string('misc', 'past-f')
+
+    @property
+    def past_en(self):
+        return self.keyfile.get_string('misc', 'past-en')
+
+class ItalianVerb(Verb):
+    def __init__(self, name):
+        Verb.__init__(self, name)
+
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
         self.conditional = self.parse_conjugation('conditional', ['present'])
@@ -74,21 +137,7 @@ class Verb(object):
 
         self.subjunctive = self.parse_conjugation('subjunctive', ['present', 'imperfect'])
 
-        self.random_iter = []
-
-    def __str__(self):
-        return '<Verb: %s>' % self.name
-
-    def random(self):
-        if not self.random_iter:
-            self.random_iter = []
-            for i in (self.indicative, self.conditional, self.subjunctive):
-                if i.has_tenses():
-                    self.random_iter.append(i)
-
-            random.shuffle(self.random_iter)
-
-        return self.random_iter.pop()
+        self.moods = [self.indicative, self.conditional, self.subjunctive]
 
     def parse_conjugation(self, mood, tenses):
         t = []
@@ -176,45 +225,3 @@ class Verb(object):
         en = [(en_be[x], self.gerund_en) for x in range(6)]
 
         mood.add(Tense('gerund', it, en))
-
-    @property
-    def english_name(self):
-        return self.keyfile.get_string('misc', 'en')
-
-    @property
-    def skip_past(self):
-        try:
-            return not bool(self.past_m)
-        except:
-            return True
-
-    @property
-    def skip_gerund(self):
-        try:
-            return not bool(self.gerund)
-        except:
-            return True
-
-    @property
-    def auxiliary(self):
-        return self.keyfile.get_string('misc', 'auxiliary')
-
-    @property
-    def gerund(self):
-        return self.keyfile.get_string('misc', 'gerund')
-
-    @property
-    def gerund_en(self):
-        return self.keyfile.get_string('misc', 'gerund-en')
-
-    @property
-    def past_m(self):
-        return self.keyfile.get_string('misc', 'past-m')
-
-    @property
-    def past_f(self):
-        return self.keyfile.get_string('misc', 'past-f')
-
-    @property
-    def past_en(self):
-        return self.keyfile.get_string('misc', 'past-en')

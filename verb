@@ -5,14 +5,14 @@ import sys
 
 from gi.repository import Gio
 
-from cana.data import Verb
+from cana.data import ItalianVerb
 from cana.ui import VerbWindow
 from cana.app import Application
 
 def parse(verblist):
     verbs = []
     for f in verblist:
-        verbs.append(Verb(f))
+        verbs.append(ItalianVerb(f))
 
     return verbs
 
