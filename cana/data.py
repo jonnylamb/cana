@@ -11,9 +11,6 @@ class Tense(object):
         self.require_personal = require_personal
         self.special = special
 
-        if not self.special:
-            self.special = lambda s: s
-
         self.random_iter = []
 
     def __str__(self):
@@ -91,6 +88,46 @@ class Verb(object):
 
         return self.random_iter.pop()
 
+    def parse_conjugation(self, mood, tenses):
+        t = []
+        m = Mood(mood)
+
+        for tense in tenses:
+            try:
+                conj_foreign = self.keyfile.get_string_list(mood, tense + '-' + self.SUFFIX)
+            except Exception as e:
+                print 'problem parsing %s %s: %s' % (mood, tense, e)
+                continue
+
+            try:
+                conj_en = self.keyfile.get_string_list(mood, tense + '-en')
+                personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they (f)']
+            except Exception as e:
+                # english doesn't exist, no wuckers
+                conj_en = personal_en = [''] * 6
+
+            personal_foreign = self.PERSONAL_INDICATIVE
+            if mood == 'subjunctive':
+                personal_foreign = self.PERSONAL_SUBJUNCTIVE
+            elif mood == 'imperative':
+                personal_foreign[0] = ''
+            elif mood == 'conditional' and conj_en == personal_en: # empty translation
+                personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
+                # if the verb is "to dance it off", use "dance it off"
+                conj_en = [' '.join(self.english_name.split(' ')[1:])] * 6
+
+            foreign = zip(personal_foreign, conj_foreign)
+            en = zip(personal_en, conj_en)
+
+            # it = [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
+            # (ignoring that that's past)
+            m.add(Tense(tense, foreign, en, self.REQUIRE_PERSONAL_PRONOUN, self.special))
+
+        return m
+
+    def special(self, answer):
+        return answer
+
     @property
     def english_name(self):
         return self.keyfile.get_string('misc', 'en')
@@ -134,6 +171,11 @@ class Verb(object):
         return self.keyfile.get_string('misc', 'past-en')
 
 class ItalianVerb(Verb):
+    SUFFIX = 'it'
+    PERSONAL_INDICATIVE = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
+    PERSONAL_SUBJUNCTIVE = ['che ' + s for s in PERSONAL_INDICATIVE]
+    REQUIRE_PERSONAL_PRONOUN = False
+
     def __init__(self, name, keyfile=None):
         Verb.__init__(self, name, keyfile)
 
@@ -151,43 +193,6 @@ class ItalianVerb(Verb):
         self.subjunctive = self.parse_conjugation('subjunctive', ['present', 'imperfect'])
 
         self.moods = [self.indicative, self.conditional, self.subjunctive]
-
-    def parse_conjugation(self, mood, tenses):
-        t = []
-        m = Mood(mood)
-
-        for tense in tenses:
-            try:
-                conj_it = self.keyfile.get_string_list(mood, tense + '-it')
-            except Exception as e:
-                print 'problem parsing %s %s: %s' % (mood, tense, e)
-                continue
-
-            try:
-                conj_en = self.keyfile.get_string_list(mood, tense + '-en')
-                personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they']
-            except Exception as e:
-                # english doesn't exist, no wuckers
-                conj_en = personal_en = [''] * 6
-
-            personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
-            if mood == 'subjunctive':
-                personal_it = ['che io', 'che tu', 'che lei', 'che noi', 'che voi', 'che loro']
-            elif mood == 'imperative':
-                personal_it[0] = ''
-            elif mood == 'conditional' and conj_en == personal_en: # empty translation
-                personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
-                # if the verb is "to dance it off", use "dance it off"
-                conj_en = [' '.join(self.english_name.split(' ')[1:])] * 6
-
-            it = zip(personal_it, conj_it)
-            en = zip(personal_en, conj_en)
-
-            # it = [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
-            # (ignoring that that's past)
-            m.add(Tense(tense, it, en))
-
-        return m
 
     def do_simple_past(self, mood):
         personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
@@ -240,6 +245,11 @@ class ItalianVerb(Verb):
         mood.add(Tense('gerund', it, en))
 
 class FrenchVerb(Verb):
+    SUFFIX = 'fr'
+    PERSONAL_INDICATIVE = ['je', 'tu', 'elle', 'nous', 'vous', 'elles']
+    PERSONAL_SUBJUNCTIVE = ['que je', 'que tu', 'qu\'elle', 'que nous', 'que vous', 'qu\'elles']
+    REQUIRE_PERSONAL_PRONOUN = True
+
     def __init__(self, name, keyfile=None):
         Verb.__init__(self, name, keyfile)
 
@@ -255,42 +265,6 @@ class FrenchVerb(Verb):
         self.subjunctive = self.parse_conjugation('subjunctive', ['present', 'imperfect'])
 
         self.moods = [self.indicative, self.conditional, self.subjunctive]
-
-    def parse_conjugation(self, mood, tenses):
-        t = []
-        m = Mood(mood)
-
-        for tense in tenses:
-            try:
-                conj_fr = self.keyfile.get_string_list(mood, tense + '-fr')
-            except Exception as e:
-                print 'hit while parsing %s %s: %s' % (mood, tense, e)
-                continue
-
-            try:
-                conj_en = self.keyfile.get_string_list(mood, tense + '-en')
-                personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they (f)']
-            except Exception as e:
-                # english doesn't exist, no wuckers
-                conj_en = personal_en = [''] * 6
-
-            personal_fr = ['je', 'tu', 'elle', 'nous', 'vous', 'elles']
-            if mood == 'subjunctive':
-                personal_fr = ['que je', 'que tu', 'qu\'elle', 'que nous', 'que vous', 'qu\'elles']
-            elif mood == 'imperative':
-                personal_fr[0] = ''
-            elif mood == 'conditional' and conj_en == personal_en: # empty translation
-                personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
-                # if the verb is "to dance it off", use "dance it off"
-                conj_en = [' '.join(self.english_name.split(' ')[1:])] * 6
-
-            fr = zip(personal_fr, conj_fr)
-            en = zip(personal_en, conj_en)
-
-            # fr = [('je', 'mange'), ('tu', 'manges'), ...]
-            m.add(Tense(tense, fr, en, require_personal=True, special=self.special))
-
-        return m
 
     def do_passe_compose(self, mood):
         personal_fr = ['je', 'tu', 'elle', 'nous', 'vous', 'elles']
