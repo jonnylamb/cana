@@ -5,14 +5,16 @@ import sys
 
 from gi.repository import Gio
 
-from cana.data import ItalianVerb
+import cana.data
 from cana.ui import VerbWindow
 from cana.app import Application
 
 def parse(verblist):
     verbs = []
     for f in verblist:
-        verbs.append(ItalianVerb(f))
+        v = cana.data.parse(f)
+        if v:
+            verbs.append(v)
 
     return verbs
 
@@ -20,7 +22,12 @@ def activate(app, verbs=None):
     if verbs is None:
         verbs = parse(os.listdir('verbs'))
 
-    window = VerbWindow(verbs)
+    try:
+        window = VerbWindow(verbs)
+    except IndexError:
+        print 'no verbs found'
+        return
+
     window.fullscreen()
     app.add_window(window)
     window.show()

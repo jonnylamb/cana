@@ -65,12 +65,14 @@ class Mood(object):
         return bool(self.tenses)
 
 class Verb(object):
-    def __init__(self, name):
+    def __init__(self, name, keyfile=None):
         self.name = name
 
-        self.keyfile = GLib.KeyFile.new()
-        self.keyfile.load_from_file('verbs/' + self.name,
-                                    GLib.KeyFileFlags.KEEP_COMMENTS)
+        self.keyfile = keyfile
+        if not self.keyfile:
+            self.keyfile = GLib.KeyFile.new()
+            self.keyfile.load_from_file('verbs/' + self.name,
+                                        GLib.KeyFileFlags.KEEP_COMMENTS)
 
         self.moods = []
         self.random_iter = []
@@ -132,8 +134,8 @@ class Verb(object):
         return self.keyfile.get_string('misc', 'past-en')
 
 class ItalianVerb(Verb):
-    def __init__(self, name):
-        Verb.__init__(self, name)
+    def __init__(self, name, keyfile=None):
+        Verb.__init__(self, name, keyfile)
 
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
@@ -238,8 +240,8 @@ class ItalianVerb(Verb):
         mood.add(Tense('gerund', it, en))
 
 class FrenchVerb(Verb):
-    def __init__(self, name):
-        Verb.__init__(self, name)
+    def __init__(self, name, keyfile=None):
+        Verb.__init__(self, name, keyfile)
 
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
