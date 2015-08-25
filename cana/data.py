@@ -236,3 +236,111 @@ class ItalianVerb(Verb):
         en = [(en_be[x], self.gerund_en) for x in range(6)]
 
         mood.add(Tense('gerund', it, en))
+
+class FrenchVerb(Verb):
+    def __init__(self, name):
+        Verb.__init__(self, name)
+
+        self.indicative = self.parse_conjugation('indicative',
+                                                 ['present', 'imperfect', 'future'])
+        self.conditional = self.parse_conjugation('conditional', ['present'])
+        if not self.skip_past:
+            self.do_passe_compose(self.indicative)
+
+        # ignore this for now
+        #self.imperative = self.parse_conjugation('imperative', ['present'])
+
+        self.subjunctive = self.parse_conjugation('subjunctive', ['present', 'imperfect'])
+
+        self.moods = [self.indicative, self.conditional, self.subjunctive]
+
+    def parse_conjugation(self, mood, tenses):
+        t = []
+        m = Mood(mood)
+
+        for tense in tenses:
+            try:
+                conj_fr = self.keyfile.get_string_list(mood, tense + '-fr')
+            except Exception as e:
+                print 'hit while parsing %s %s: %s' % (mood, tense, e)
+                continue
+
+            try:
+                conj_en = self.keyfile.get_string_list(mood, tense + '-en')
+                personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they (f)']
+            except Exception as e:
+                # english doesn't exist, no wuckers
+                conj_en = personal_en = [''] * 6
+
+            personal_fr = ['je', 'tu', 'elle', 'nous', 'vous', 'elles']
+            if mood == 'subjunctive':
+                personal_fr = ['que je', 'que tu', 'qu\'elle', 'que nous', 'que vous', 'qu\'elles']
+            elif mood == 'imperative':
+                personal_fr[0] = ''
+            elif mood == 'conditional' and conj_en == personal_en: # empty translation
+                personal_en = ['i would', 'you would', 'she would', 'we would', 'you (pl) would', 'they would']
+                # if the verb is "to dance it off", use "dance it off"
+                conj_en = [' '.join(self.english_name.split(' ')[1:])] * 6
+
+            fr = zip(personal_fr, conj_fr)
+            en = zip(personal_en, conj_en)
+
+            # fr = [('je', 'mange'), ('tu', 'manges'), ...]
+            m.add(Tense(tense, fr, en, require_personal=True, special=self.special))
+
+        return m
+
+    def do_passe_compose(self, mood):
+        personal_fr = ['je', 'tu', 'elle', 'nous', 'vous', 'elles']
+        personal_en = ['i', 'you', 'she', 'we', 'you (pl)', 'they (f)']
+
+        if self.auxiliary == 'être':
+            aux = ['suis', 'es', 'est', 'sommes', 'êtes', 'sont']
+            fem_past = self.past_m + 'e'
+            plural_suffix = 's'
+        elif self.auxiliary == 'avoir':
+            aux = ['hai', 'as', 'a', 'avons', 'avez', 'ont']
+            fem_past = self.past_m
+            plural_suffix = ''
+        else:
+            raise Exception('unknown auxiliary: %s' % self.auxiliary)
+
+        pasts = [self.past_m] * 2 + [fem_past] + [self.past_m + plural_suffix] * 2 + [fem_past + plural_suffix]
+
+        # [('je', 'hai mangé'), ('tu', 'as mangé'), ...]
+        fr = [(personal_fr[x], '%s %s' % (aux[x], pasts[x])) for x in range(6)]
+
+        try:
+            en = [(personal_en[x], self.past_en) for x in range(6)]
+        except:
+            empty = [''] * 6
+            en = zip(empty, empty)
+
+        mood.add(Tense('passé composé', fr, en, require_personal=True, special=self.special))
+
+    def special(self, answer):
+        if answer.startswith('je hai'):
+            return 'j\'hai' + answer[len('je hai'):]
+
+        return answer
+
+def parse(name):
+    keyfile = GLib.KeyFile.new()
+
+    try:
+        keyfile.load_from_file('verbs/' + name,
+                               GLib.KeyFileFlags.KEEP_COMMENTS)
+
+        aux = keyfile.get_string('misc', 'auxiliary')
+    except Exception as e:
+        print 'failed to parse verb "%s": %s' % (name, e)
+        return None
+
+    if aux in ('essere', 'avere'):
+        return ItalianVerb(name, keyfile=keyfile)
+    elif aux in ('être', 'etre', 'avoir'):
+        return FrenchVerb(name, keyfile=keyfile)
+    else:
+        raise Exception('invalid auxiliary "%s" for verb "%s"' % (aux, name))
+
+    return None

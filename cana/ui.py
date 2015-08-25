@@ -117,7 +117,10 @@ class VerbWindow(BaseWindow):
         if self.entry.get_text().lower() in answers:
             return True
 
-        correction = '<span font="Sans 60" foreground="red">%s</span>' % answers[1]
+        # use -1 index because the assumption is the most complete
+        # form is the last in the tuple. for example, in italian it
+        # will be ('mangio', 'io mangio')
+        correction = '<span font="Sans 60" foreground="red">%s</span>' % answers[-1]
 
         self.correction.set_markup(correction)
         self.correction.show()

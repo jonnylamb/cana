@@ -6,8 +6,9 @@ ages ago to test some vocab but that has since been removed because
 [Anki](http://ankisrs.net/) is much better. The conjugation testing
 part remained because I never found anything quite so simple.
 
-Right now it's heavily specific to Italian. It could probably
-relatively easily be updated to work with other Latin languages.
+Right now it's heavily specific to Italian and French. It could
+probably relatively easily be updated to work with other Latin
+languages.
 
 Usage
 -----
@@ -24,9 +25,10 @@ specify one mood or tense at runtime.
 Adding new verbs
 ----------------
 
-The `scrape` tool tries to automatically scrape conjugations from
-wiktionary. It generally works but it can be fragile and it's advised
-to have a look at the file in the `verbs/` directory afterwards.
+The `scrape` tool tries to automatically scrape Italian verb
+conjugations from wiktionary. It generally works but it can be fragile
+and it's advised to have a look at the file in the `verbs/` directory
+afterwards.
 
 Why?
 ----
