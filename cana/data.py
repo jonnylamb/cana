@@ -9,7 +9,11 @@ class Tense(object):
         self.foreign = foreign # [('io', 'sono'), ('tu', 'sei'), ...]
         self.en = en # [('i', 'am'), ...]
         self.require_personal = require_personal
-        self.special = special
+
+        if special:
+            self.special = special
+        else:
+            self.special = lambda s: s
 
         self.random_iter = []
 
