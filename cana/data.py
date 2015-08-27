@@ -123,9 +123,13 @@ class Verb(object):
             foreign = zip(personal_foreign, conj_foreign)
             en = zip(personal_en, conj_en)
 
-            # it = [('io', 'ho mangiato'), ('tu', 'hai mangiato'), ...]
-            # (ignoring that that's past)
-            m.add(Tense(tense, foreign, en, self.REQUIRE_PERSONAL_PRONOUN, self.special))
+            # foreign = [('io', 'mangio'), ('tu', 'mangi'), ...]
+
+            # have to set require_personal and special because this is
+            # the base class
+            m.add(Tense(tense, foreign, en,
+                        require_personal=self.REQUIRE_PERSONAL_PRONOUN,
+                        special=self.special))
 
         return m
 
@@ -296,7 +300,9 @@ class FrenchVerb(Verb):
             empty = [''] * 6
             en = zip(empty, empty)
 
-        mood.add(Tense('passé composé', fr, en, require_personal=True, special=self.special))
+        mood.add(Tense('passé composé', fr, en,
+                       require_personal=True,
+                       special=self.special))
 
     def special(self, answer):
         if answer.startswith('je hai'):
