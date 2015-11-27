@@ -35,11 +35,6 @@ class Tense(object):
                                    self.answers())
             random.shuffle(self.random_iter)
 
-        if self.random_iter[0] == 0 and self.random_iter[1] == 'i ':
-            # imperative first person singular
-            self.random_iter.pop()
-            return self.random()
-
         return self.random_iter.pop()
 
 class Mood(object):
