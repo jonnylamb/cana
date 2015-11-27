@@ -27,7 +27,8 @@ class Tense(object):
             return [(x[-1], self.special(' '.join(x))) for x in self.foreign]
 
     def random(self):
-        # of form: (0, 'i am', ('io sono', 'sono'))
+        # returns form: (0, 'i am', ('io sono', 'sono'))
+        # where (id, english, (possible, answers))
 
         if not self.random_iter:
             self.random_iter = zip(range(6),
