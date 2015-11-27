@@ -239,7 +239,7 @@ class ItalianVerb(Verb):
             empty = [''] * 6
             en = zip(empty, empty)
 
-        mood.add(Tense('simple past', it, en))
+        mood.add(Tense('simple-past', it, en))
 
     def do_gerund(self, mood):
         personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
@@ -302,7 +302,7 @@ class FrenchVerb(Verb):
             empty = [''] * 6
             en = zip(empty, empty)
 
-        mood.add(Tense('passé composé', fr, en,
+        mood.add(Tense('passe-compose', fr, en,
                        require_personal=True,
                        special=self.special))
 
