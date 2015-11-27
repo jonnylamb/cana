@@ -2,6 +2,7 @@
 
 import os
 import sys
+import argparse
 
 from gi.repository import Gio
 
@@ -9,10 +10,10 @@ import cana.data
 from cana.ui import VerbWindow
 from cana.app import Application
 
-def parse(verblist):
+def parse(app, verblist):
     verbs = []
     for f in verblist:
-        v = cana.data.parse(f)
+        v = cana.data.parse(app, f)
         if v:
             verbs.append(v)
 
@@ -20,7 +21,7 @@ def parse(verblist):
 
 def activate(app, verbs=None):
     if verbs is None:
-        verbs = parse(os.listdir('verbs'))
+        verbs = parse(app, os.listdir('verbs'))
 
     try:
         window = VerbWindow(verbs)
@@ -33,14 +34,25 @@ def activate(app, verbs=None):
     window.show()
 
 def opened(app, files, hint, data):
-    verbs = parse([x.get_basename() for x in files])
+    verbs = parse(app, [x.get_basename() for x in files])
     activate(app, verbs)
 
 if __name__ == '__main__':
-    app = Application()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--moods', metavar='mood', nargs='*',
+                        help='moods to test (default: all)')
+    parser.add_argument('--tenses', metavar='tense', nargs='*',
+                        help='tenses to test (default: all)')
+    parser.add_argument('verbs', nargs='*',
+                        help='verbs to test (default: random)')
+    args = parser.parse_args()
+
+    app = Application(args)
     app.set_flags(Gio.ApplicationFlags.HANDLES_OPEN)
 
     app.connect('activate', activate)
     app.connect('open', opened)
 
-    app.run(sys.argv)
+    # use this instead of sys.argv because argparse is used to parse
+    # command line args instead of gapplication. so ugly.
+    app.run([sys.argv[0]] + args.verbs)

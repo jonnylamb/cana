@@ -4,7 +4,8 @@ import random
 from gi.repository import GLib
 
 class Tense(object):
-    def __init__(self, name, foreign, en, require_personal=False, special=None):
+    def __init__(self, app, name, foreign, en, require_personal=False, special=None):
+        self.app = app
         self.name = name
         self.foreign = foreign # [('io', 'sono'), ('tu', 'sei'), ...]
         self.en = en # [('i', 'am'), ...]
@@ -41,7 +42,8 @@ class Tense(object):
         return self.random_iter.pop()
 
 class Mood(object):
-    def __init__(self, name):
+    def __init__(self, app, name):
+        self.app = app
         self.name = name
         self.tenses = []
 
@@ -55,7 +57,10 @@ class Mood(object):
 
     def random(self):
         if not self.random_iter:
-            self.random_iter = self.tenses[:]
+            if self.app.args.tenses:
+                self.random_iter = [x for x in self.tenses if x.name in self.app.args.tenses]
+            else:
+                self.random_iter = self.tenses[:]
             random.shuffle(self.random_iter)
 
         assert self.random_iter
@@ -63,11 +68,15 @@ class Mood(object):
         return self.random_iter.pop()
 
     def has_tenses(self):
-        return bool(self.tenses)
+            if self.app.args.tenses:
+                return bool([x for x in self.tenses if x.name in self.app.args.tenses])
+            else:
+                return bool(self.tenses)
 
 class Verb(object):
-    def __init__(self, name, keyfile=None):
+    def __init__(self, app, name, keyfile=None):
         self.name = name
+        self.app = app
 
         self.keyfile = keyfile
         if not self.keyfile:
@@ -85,6 +94,10 @@ class Verb(object):
         if not self.random_iter:
             self.random_iter = []
             for i in self.moods:
+                if self.app.args.moods:
+                    if i.name not in self.app.args.moods:
+                        continue
+
                 if i.has_tenses():
                     self.random_iter.append(i)
 
@@ -96,7 +109,7 @@ class Verb(object):
 
     def parse_conjugation(self, mood, tenses):
         t = []
-        m = Mood(mood)
+        m = Mood(self.app, mood)
 
         for tense in tenses:
             try:
@@ -129,7 +142,7 @@ class Verb(object):
 
             # have to set require_personal and special because this is
             # the base class
-            m.add(Tense(tense, foreign, en,
+            m.add(Tense(self.app, tense, foreign, en,
                         require_personal=self.REQUIRE_PERSONAL_PRONOUN,
                         special=self.special))
 
@@ -186,8 +199,8 @@ class ItalianVerb(Verb):
     PERSONAL_SUBJUNCTIVE = ['che ' + s for s in PERSONAL_INDICATIVE]
     REQUIRE_PERSONAL_PRONOUN = False
 
-    def __init__(self, name, keyfile=None):
-        Verb.__init__(self, name, keyfile)
+    def __init__(self, app, name, keyfile=None):
+        Verb.__init__(self, app, name, keyfile)
 
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
@@ -239,7 +252,7 @@ class ItalianVerb(Verb):
             empty = [''] * 6
             en = zip(empty, empty)
 
-        mood.add(Tense('simple-past', it, en))
+        mood.add(Tense(self.app, 'simple-past', it, en))
 
     def do_gerund(self, mood):
         personal_it = ['io', 'tu', 'lei', 'noi', 'voi', 'loro']
@@ -252,7 +265,7 @@ class ItalianVerb(Verb):
         # [('i am', 'eating'), ...]
         en = [(en_be[x], self.gerund_en) for x in range(6)]
 
-        mood.add(Tense('gerund', it, en))
+        mood.add(Tense(self.app, 'gerund', it, en))
 
 class FrenchVerb(Verb):
     SUFFIX = 'fr'
@@ -260,8 +273,8 @@ class FrenchVerb(Verb):
     PERSONAL_SUBJUNCTIVE = ['que je', 'que tu', 'qu\'elle', 'que nous', 'que vous', 'qu\'elles']
     REQUIRE_PERSONAL_PRONOUN = True
 
-    def __init__(self, name, keyfile=None):
-        Verb.__init__(self, name, keyfile)
+    def __init__(self, app, name, keyfile=None):
+        Verb.__init__(self, app, name, keyfile)
 
         self.indicative = self.parse_conjugation('indicative',
                                                  ['present', 'imperfect', 'future'])
@@ -302,7 +315,7 @@ class FrenchVerb(Verb):
             empty = [''] * 6
             en = zip(empty, empty)
 
-        mood.add(Tense('passe-compose', fr, en,
+        mood.add(Tense(self.app, 'passe-compose', fr, en,
                        require_personal=True,
                        special=self.special))
 
@@ -312,7 +325,7 @@ class FrenchVerb(Verb):
 
         return answer
 
-def parse(name):
+def parse(app, name):
     keyfile = GLib.KeyFile.new()
 
     try:
@@ -325,9 +338,9 @@ def parse(name):
         return None
 
     if aux in ('essere', 'avere'):
-        return ItalianVerb(name, keyfile=keyfile)
+        return ItalianVerb(app, name, keyfile=keyfile)
     elif aux in ('être', 'etre', 'avoir'):
-        return FrenchVerb(name, keyfile=keyfile)
+        return FrenchVerb(app, name, keyfile=keyfile)
     else:
         raise Exception('invalid auxiliary "%s" for verb "%s"' % (aux, name))
 
