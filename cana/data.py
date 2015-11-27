@@ -36,6 +36,8 @@ class Tense(object):
                                    self.answers())
             random.shuffle(self.random_iter)
 
+        assert self.random_iter
+
         return self.random_iter.pop()
 
 class Mood(object):
@@ -55,6 +57,8 @@ class Mood(object):
         if not self.random_iter:
             self.random_iter = self.tenses[:]
             random.shuffle(self.random_iter)
+
+        assert self.random_iter
 
         return self.random_iter.pop()
 
@@ -85,6 +89,8 @@ class Verb(object):
                     self.random_iter.append(i)
 
             random.shuffle(self.random_iter)
+
+        assert self.random_iter
 
         return self.random_iter.pop()
 
